@@ -84,34 +84,33 @@ namespace Lab6
         }
         public static bool RunAgain(bool again)
         {
-            //call the method which gets user's response from the prompt "would you like to run this again?"
-            string userResponse = GetUserInput("would you like to run this again?");
+            string validInput = GetValidUserInput();
             
-            //validate the user gave a valid response
-            bool isValid = ValidateYesNo(userResponse);
-            return isValid;
-        }
-        public static bool ValidateYesNo(string userResponse)
-        {
-            //declare the bool and set it to false because we haven't verified it yet.
-            bool isYes = false;
-
-            //if the user said "yes" or "y", the response is yes
-            if (userResponse.ToLower() == "y" || userResponse.ToLower() == "yes")
-                isYes = true;
-
-            //if the user said "no" or "n", the response is not yes
-            else if (userResponse.ToLower() == "n" || userResponse.ToLower() == "no")
-                isYes = false;
-
-            //if the previous conditions are both false, the system isn't sure what the user inteded, 
-            //so we ask for user input again and validation happens again.
-            else
-            { 
-            userResponse = GetUserInput("I don't understand. Please try again.");
-            isYes = ValidateYesNo(userResponse);
+            if(validInput == "y" || validInput == "yes"){
+                return true;
             }
-            return isYes;
+
+            return false;
+        }
+
+        public static string GetValidUserInput()
+        {
+            string userResponse = GetUserInput("Would you like to run again?")
+            bool validResponse = AssessUserInput(userResponse);
+
+            while(!validResponse){
+                userResponse = GetUserInput("Would you like to run again?")
+                validResponse = AssessUserInput(userResponse);
+            }
+            
+            return userResponse.ToLower();
+        }
+        
+        public static bool AssessUserInput(string input){
+            return (userResponse.ToLower() == "y" || 
+                    userResponse.ToLower() == "yes" ||
+                    userResponse.ToLower() == "n" || 
+                    userResponse.ToLower() == "no");
         }
     }
 }
